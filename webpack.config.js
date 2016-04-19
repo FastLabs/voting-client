@@ -1,3 +1,5 @@
+
+
 module.exports = {
     entry: [
         './src/index.jsx'
@@ -19,6 +21,8 @@ module.exports = {
         extensions: ['', '.js', '.jsx']
     },
     devServer: {
-        contentBase: './dist'
+        //hot: true,
+        contentBase: './dist',
+        publicPath: '/dist/'
     }
 };

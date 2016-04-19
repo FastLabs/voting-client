@@ -1,24 +1,26 @@
-import {React} from 'react';
+import React from 'react';
+import AutoComplete from 'material-ui/AutoComplete'
 
 export default React.createClass({
-
-    getPair: ()=> {
+    getPair: function () {
         return this.props.pair || [];
     },
 
-    isDisabled: () => {
 
-    },
 
-    render: () => {
+    render: function () {
+        console.log(this.childContext);
         return <div className="voting">
-            {
-                this.getPair().map(entry =>
-                    <button key={entry}
-                            onclick={()=>this.props.vote(entry)}>
-                        <h1>{entry}</h1>
-                    </button>
-                )}
-        </div>
+            <div>
+                <AutoComplete id="abc" dataSource = {['unu','doi', 'trei', 'patru', 'unsprezece', 'usa']} maxSearchResults={2} />
+            </div>
+
+        {this.getPair().map(entry =>
+                <button key={entry}
+                        onClick={() => this.props.vote(entry)}>
+                    <h1>{entry}</h1>
+                </button>
+            )}
+        </div>;
     }
 });
