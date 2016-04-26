@@ -1,8 +1,7 @@
 import React from 'react';
-import Toggle from 'material-ui/Toggle';
-import TextField from 'material-ui/TextField';
 import {Card, CardTitle, CardActions} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import ColumnEditor from './ColumnEditor.jsx';
 
 
 const style = {
@@ -14,55 +13,43 @@ class TableConfigurator extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-        this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.handleVisibility = this.handleVisibility.bind(this);
-        this.state = {
-
-        };
-    }
-
-    handleTitleChange () {
+        this.applyConfigChanges = this.applyConfigChanges.bind(this);
+        this.handleColumnConfigChange = this.handleColumnConfigChange.bind(this);
+        this.state = props.config;
 
     }
 
-    handleVisibility() {
-
+    componentWillReceiveProps(newProps) {
+        this.setState(newProps.config);
     }
 
+    handleColumnConfigChange(index, config) {
+        const columns = this.state.columns;
+        columns[index] = config;
+        this.setState(Object.assign({}, this.state, {columns}));
+    }
+
+    applyConfigChanges() {
+
+    }
 
     render() {
-        const {columns, tableName} = this.props.config;
-        return (<Card >
+        const {columns, tableName } = this.state,
+            {onConfigChange} = this.props;
+
+        return (<Card>
             <CardTitle title={`${tableName} properties`}/>
             <div>
-                <table>
-                    {columns.map(column=> {
+                {
+                    columns.map((column, index)=> {
                         return (
-                            <tr>
-                                <td>
-                                    <div style={{marginLeft: '40px'}}>
-                                        {column.id}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div style={{marginLeft: '40px'}}>
-                                        <Toggle label='visible'
-                                                onChange={this.handleVisibility}
-                                                labelPosition="right"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div style={{marginLeft: '40px'}}>
-                                    <TextField onChange={this.handleTitleChange}/>
-                                        </div>
-                                </td>
-                            </tr>
-                        )
+                            <ColumnEditor index={index} column={column} changeHandler={this.handleColumnConfigChange}/>)
                     })}
-                </table>
+
             </div>
-            <CardActions>
-                <FlatButton label="Apply"/>
+            <CardActions style={{float: 'right'}}>
+                <FlatButton label="Apply"
+                            onTouchTap={() =>{ if(onConfigChange) onConfigChange({columns, tableName}); }}/>
             </CardActions>
         </Card>)
 

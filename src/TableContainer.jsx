@@ -5,6 +5,7 @@ import Paper from 'material-ui/Paper';
 import transitions from 'material-ui/styles/transitions';
 import ThemeManager from 'material-ui/styles/themeManager';
 import TableConfigurator from './TableConfigurator.jsx'
+import TableContent from './TableContent.jsx';
 
 const styles = {
     root: {
@@ -53,6 +54,7 @@ class TableContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.handleTap = this.handleTap.bind(this);
+        this.handleConfigChange = this.handleConfigChange.bind(this);
         this.state = {};
 
     }
@@ -60,6 +62,10 @@ class TableContainer extends React.Component {
 
     handleTap() {
         this.setState({expand: !this.state.expand});
+    }
+
+    handleConfigChange (newConfig) {
+        console.log('this is the new config', newConfig);
     }
 
 
@@ -79,6 +85,12 @@ class TableContainer extends React.Component {
             codeStyle = styles.table;
         }
 
+        let data = {
+            columns : [
+                {id: 'id'}
+            ]
+        };
+
         return (
             <Paper id="pp" style={paperStyle}>
                 <div style={styles.root}>
@@ -86,10 +98,10 @@ class TableContainer extends React.Component {
                         <ContainerTitle title={title}/>
                     </div>
                     <div style={codeStyle}>
-                        <TableConfigurator config={config}/>
+                        <TableConfigurator config={config} onConfigChange={this.handleConfigChange} />
                     </div>
                     <div>
-                        Content
+                        <TableContent data={data} config={config}/>
                     </div>
                 </div>
             </Paper>
