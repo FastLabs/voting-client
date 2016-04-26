@@ -49,24 +49,34 @@ class MainView extends React.Component {
             columns: [
                 {
                     id: 'col1',
+                    title : 'Column 1',
+                    type: 'double',
                     visible: true
                 },
                 {
                     id: 'col2',
+                    title: 'Column 2',
+                    type: 'double',
                     visible: true
                 }
 
             ]
+        },
+            data = {
+            columns : [
+                {id: 'col1', values: [1, 2, 3], type: 'double'},
+                {id: 'col2', values: [4, 5, 6], type: 'double'}
+            ]
         };
 
-        return (
+        return ( 
             <MuiThemeProvider muiTheme={muiTheme}>
                 <div>
                     <div>
                         <Voting pair={pair}/>
                     </div>
                     <div>
-                        <TableContainer title="Pricing" config={config}/>
+                        <TableContainer title="Pricing" config={config} data={data}/>
                     </div>
                 </div>
 

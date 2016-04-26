@@ -3,9 +3,8 @@ import {Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar';
 import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 import transitions from 'material-ui/styles/transitions';
-import ThemeManager from 'material-ui/styles/themeManager';
 import TableConfigurator from './TableConfigurator.jsx'
-import TableContent from './TableContent.jsx';
+import ColumnTable from './component/ColumnTable.jsx';
 
 const styles = {
     root: {
@@ -55,7 +54,7 @@ class TableContainer extends React.Component {
         super(props, context);
         this.handleTap = this.handleTap.bind(this);
         this.handleConfigChange = this.handleConfigChange.bind(this);
-        this.state = {};
+        this.state = {config: props.config, data: props.data, title: props.title};
 
     }
 
@@ -70,7 +69,7 @@ class TableContainer extends React.Component {
 
 
     render() {
-        const {title, config} = this.props,
+        const {title, config, data} = this.state,
             palette = this.context.muiTheme.rawTheme.palette;
 
 
@@ -84,13 +83,6 @@ class TableContainer extends React.Component {
         if (this.state.expand) {
             codeStyle = styles.table;
         }
-
-        let data = {
-            columns : [
-                {id: 'id'}
-            ]
-        };
-
         return (
             <Paper id="pp" style={paperStyle}>
                 <div style={styles.root}>
@@ -101,7 +93,7 @@ class TableContainer extends React.Component {
                         <TableConfigurator config={config} onConfigChange={this.handleConfigChange} />
                     </div>
                     <div>
-                        <TableContent data={data} config={config}/>
+                        <ColumnTable data={data} config={config}/>
                     </div>
                 </div>
             </Paper>

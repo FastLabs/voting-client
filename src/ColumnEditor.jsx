@@ -9,8 +9,7 @@ class ColumnEditor extends React.Component {
         this.rowId = props.rowId;
         this.handleVisibility = this.handleVisibility.bind(this);
         this.handleTitle = this.handleTitle.bind(this);
-        let column = props.column;
-        this.state = Object.assign({}, column);
+        this.state = {column: props.column};
     }
 
     componentWillReceiveProps(newProps) {
@@ -27,17 +26,22 @@ class ColumnEditor extends React.Component {
     }
 
 
-    handleVisibility() {
+    handleVisibility(ev, checked) {
+        const {changeHandler, index} = this.props,
+            changed = Object.assign({}, this.state, {visible: checked});
+        if (changeHandler) {
+            changeHandler(index, changed);
+        }
     }
 
 
     render() {
         const {title, id} = this.state;
-        return (<div>
-                <div style={{marginLeft: '40px'}}>{id}</div>
-                <div style={{marginLeft: '40px'}}>
+        return (<div style={{display : 'inline'}}>
+                <div style={{marginLeft: '40px', width: '100px'}}>{id}</div>
+                <div style={{marginLeft: '40px', width: '200px'}}>
                     <Toggle label='visible'
-                            onChange={this.handleVisibility}
+                            onToggle={this.handleVisibility}
                             labelPosition="right"/>
                 </div>
                 <div style={{marginLeft: '40px'}}>

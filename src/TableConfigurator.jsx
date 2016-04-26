@@ -39,7 +39,7 @@ class TableConfigurator extends React.Component {
 
         return (<Card>
             <CardTitle title={`${tableName} properties`}/>
-            <div>
+            <div style={{width: '300px'}}>
                 {
                     columns.map((column, index)=> {
                         return (
